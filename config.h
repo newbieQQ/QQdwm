@@ -73,14 +73,6 @@ static const char *flameshot[]   = { "flameshot", "gui", NULL};
 //static const char *firefoxcmd[]  = { "firefox", NULL };
 //static const char *obsidiancmd[] = { "obsidian", NULL };
 
-static const char *AutoStartCmds[50][50] = {
-  {"fcitx5", NULL},
-  {"slstatus", NULL},
-  {"feh","--bg-fill", "https://background-1312843796.cos.ap-nanjing.myqcloud.com/2.png", NULL},
-  {"picom","--config", "$QQWM_PATH/config/picomrc", "-b", NULL},
-  {"\0", NULL}
-};
-
 static const char *appcmds[50][50] = {
     { "",                    NULL },
     { "",                    NULL },
