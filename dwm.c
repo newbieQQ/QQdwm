@@ -279,6 +279,7 @@ static void grid(Monitor *m);
 static void NextCilent(const Arg *arg);
 static void spawnIntag(int, int);
 static void open(const Arg *arg);
+static void runcmd(const Arg *arg);
 
 
 /* configuration, allows nested code to access above variables */
@@ -304,12 +305,13 @@ open(const Arg *arg)
 void
 Myscripts() 
 {
-//int CmdNum = 0;
-//while (AutoStartCmds[CmdNum][0][0] != '\0') {
-//  const Arg arg = {.v = AutoStartCmds[0]};
-//  execvp(((char **)arg.v)[0], (char **)arg.v);
-//}
   system("sh $QQWM_PATH/script/startapps");
+}
+
+void 
+runcmd(const Arg *arg) 
+{
+  system((char*)arg->v);
 }
 
 

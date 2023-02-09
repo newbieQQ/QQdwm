@@ -92,7 +92,9 @@ static const Key keys[] = {
 	{ Mod1Mask,                     XK_space,  spawn,          {.v = dmenucmd } },
 
 
-	{ MODKEY,                       XK_r,      spawn,          SHCMD("ranger") },
+	{ MODKEY,                       XK_Up,      runcmd,          {.v = "amixer set Master 5%+"} },
+	{ MODKEY,                       XK_Down,    runcmd,          {.v = "amixer set Master 5%-"} },
+
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 
 	{ ControlMask|ShiftMask,        XK_d,      killclient,     {0} },
