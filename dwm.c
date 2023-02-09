@@ -305,6 +305,8 @@ open(const Arg *arg)
 void
 Myscripts() 
 {
+  system("QQstatus &");
+  system("fcitx5 -d &");
   system("sh $QQWM_PATH/script/startapps");
 }
 
