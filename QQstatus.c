@@ -39,7 +39,7 @@ const char *GetDatetime() {
   timeinfo = localtime(&rawtime);
 
   strftime(buffer, 80, "%Y-%m-%d %H:%M", timeinfo);
-  sprintf(res, "| %s", buffer);
+  sprintf(res, "| %s ", buffer);
   const char *ans = res;
   return ans;
 }
