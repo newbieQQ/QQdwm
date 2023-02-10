@@ -43,8 +43,8 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,     "火狐",       1 << 8,       0,           -1 },
+	{ NULL,        NULL,     "图片查看器",        0,             1,           -1 }, //QQ图片查看
+	{ NULL,        NULL,     "图片查看",        0,             1,           -1 },   //微信图片查看
 };
 
 /* layout(s) */
