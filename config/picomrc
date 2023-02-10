@@ -6,6 +6,12 @@ opacity-rule = [
   "80:class_g = 'weixin'",
   "80:class_g = 'QQ'",
 ];
+
+animations-exclude = [
+  "name *= 'flameshot'",
+  "name *= 'fcitx5'",
+];
+
 #################################
 #           Animations         #
 #################################
