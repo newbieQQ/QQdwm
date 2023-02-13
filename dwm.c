@@ -337,7 +337,7 @@ Myscripts()
 {
   system("QQstatus &");
   system("fcitx5 -d &");
-  system("feh --bg-fill https://background-1312843796.cos.ap-nanjing.myqcloud.com/1png &");
+  system("feh --bg-fill ~/.dwm/background/* &");
   system("picom --config $QQWM_PATH/config/picomrc -b &");
   // system("feh --bg-fill --randomize $QQWM_PATH/background/*");
 }
