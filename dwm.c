@@ -2543,11 +2543,22 @@ view(const Arg *arg)
 {
 	if ((arg->ui & TAGMASK) == selmon->tagset[selmon->seltags])
 		return;
-	selmon->seltags ^= 1; /* toggle sel tagset */
-	if (arg->ui & TAGMASK) 
+	selmon->seltags ^= 1; 
+  /* toggle sel tagset */
+	if (arg->ui & TAGMASK) {
 		selmon->tagset[selmon->seltags] = arg->ui & TAGMASK;
+    selmon->seltag = arg->ui;
+  }
 	focus(NULL);
 	arrange(selmon);
+
+/* 	if ((arg->ui & TAGMASK) == selmon->tagset[selmon->seltags]) */
+/* 		return; */
+/* 	selmon->seltags ^= 1; /1* toggle sel tagset *1/ */
+/* 	if (arg->ui & TAGMASK) */ 
+/* 		selmon->tagset[selmon->seltags] = arg->ui & TAGMASK; */
+/* 	focus(NULL); */
+/* 	arrange(selmon); */
 }
 
 Client *
