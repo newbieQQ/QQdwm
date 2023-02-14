@@ -1,5 +1,28 @@
 # QQ-dwm
 QQ 基于 suckless 家 dwm 修改的 windows manager
+
+## TODO
+
+[-] 实现alt+tab实现下一个窗口并且聚焦
+
+[-] 实现win+tab实现下一个tag
+
+[-] open函数，打开一个函数在特定tag
+
+[-] 实现集成状态栏
+
+[ ] 将系统托盘集成到状态栏
+
+[ ] 实现通知
+
+[ ] 灵动岛
+
+## 依赖的软件
+```
+picom
+feh
+alsa-utils
+```
  
 ## 使用说明
 
