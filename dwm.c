@@ -310,6 +310,7 @@ static void NextCilent(const Arg *arg);
 static void spawnIntag(int, int);
 static void open(const Arg *arg);
 static void runcmd(const Arg *arg);
+static int drawstatus(Monitor *m, int bh, char *text);
 
 
 /* configuration, allows nested code to access above variables */
@@ -332,14 +333,42 @@ open(const Arg *arg)
 	arrange(selmon);
 }
 
+/* unsigned int */ 
+/* drawstatus(Monitor *m, unsigned int x, int icons, Swallow *stc, int start, int spacing, Bool invert) { */
+/*     if (!showsystray || icons == 0) */
+/*         return x; */
+
+/*     unsigned int w = bh, max_width = m->ww / 2; */
+
+/*     if (icons > 0) { */
+/*         int i, n = 0, x = m->ww - w - 5; */
+/*         for (i = start; i < icons && n < MAXTRAYICONS; i++) { */
+/*             if (!stc[i].isoccupied) */
+/*                 continue; */
+/*             if (n > 0) */
+/*                 x -= w + spacing; */
+/*             n++; */
+/*             if (n == 1) */
+/*                 drw_setscheme(drw, scheme[SchemeNorm]); */
+/*             else */
+/*                 drw_setscheme(drw, scheme[invert ? SchemeNorm : SchemeStatus]); */
+/*             drw_rect(drw, x, m->my, w, w, 1, 1); */
+/*             drw_text(drw, x, m->my, w, w, lrpad / 2, stc[i].class, 0); */
+/*         } */
+/*         x -= spacing; */
+/*     } */
+
+/*     return m->ww - x; */
+/* } */
+
 void
 Myscripts() 
 {
-  system("QQstatus &");
+  // system("QQstatus &");
   system("fcitx5 -d &");
-  system("feh --bg-fill ~/.dwm/background/* &");
+  // system("feh --bg-fill ~/.dwm/background/* &");
   system("picom --config $QQWM_PATH/config/picomrc -b &");
-  // system("feh --bg-fill --randomize $QQWM_PATH/background/*");
+  system("feh --bg-fill --randomize $QQWM_PATH/background/*");
 }
 
 void 
@@ -954,6 +983,7 @@ drawbar(Monitor *m)
 	}
 
 	resizebarwin(m);
+
 	for (c = m->clients; c; c = c->next) {
 		occ |= c->tags;
 		if (c->isurgent)
@@ -2478,7 +2508,11 @@ updatesystray(void)
 		XMapRaised(dpy, i->win);
 		w += systrayspacing;
 		i->x = w;
-		XMoveResizeWindow(dpy, i->win, i->x, 0, i->w, i->h);
+		XMoveResizeWindow(dpy, i->win,
+                      i->x + i->w * (1 - systraysize) / 2,
+                      i->h * (1 - systraysize) / 2,
+                      i->w * systraysize,
+                      i->h * systraysize);
 		w += i->w;
 		if (i->mon != m)
 			i->mon = m;
