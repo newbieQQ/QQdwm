@@ -337,7 +337,7 @@ Myscripts()
 {
   system("QQstatus &");
   system("fcitx5 -d &");
-  // system("feh --bg-fill ~/.dwm/background/* &");
+  system("xfce4-power-manager &");
   system("picom --config $QQWM_PATH/config/picomrc -b &");
   system("feh --bg-fill --randomize $QQWM_PATH/background/*");
 }
