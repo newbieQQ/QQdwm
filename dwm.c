@@ -20,6 +20,7 @@
  *
  * To understand everything else, start reading main().
  */
+#include <pthread.h>
 #include <errno.h>
 #include <locale.h>
 #include <signal.h>
@@ -310,12 +311,21 @@ static void NextCilent(const Arg *arg);
 static void spawnIntag(int, int);
 static void open(const Arg *arg);
 static void runcmd(const Arg *arg);
+static void Mythread();
+static void* background(void* arg);
 
 
 /* configuration, allows nested code to access above variables */
 #include "config.h"
 
 /* My Functions */
+static pthread_t timing_thread;
+void 
+Mythread() 
+{
+  pthread_create(&timing_thread, NULL, background, NULL);
+}
+
 void
 open(const Arg *arg)
 {
@@ -337,9 +347,17 @@ Myscripts()
 {
   system("QQstatus &");
   system("fcitx5 -d &");
-  system("xfce4-power-manager &");
-  system("picom --config $QQWM_PATH/config/picomrc -b &");
-  system("feh --bg-fill --randomize $QQWM_PATH/background/*");
+}
+
+void*
+background(void* arg) 
+{
+  while (running) {
+    system("feh --bg-fill --randomize $QQWM_PATH/background/*");
+    system("picom --config $QQWM_PATH/config/picomrc -b &");
+    sleep(300);
+  }
+  return arg;
 }
 
 void 
@@ -2690,6 +2708,7 @@ main(int argc, char *argv[])
 #endif /* __OpenBSD__ */
 	scan();
   Myscripts();
+  Mythread();
 	run();
 	cleanup();
 	XCloseDisplay(dpy);
