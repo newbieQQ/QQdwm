@@ -347,7 +347,7 @@ Myscripts()
 {
   system("QQstatus &");
   system("fcitx5 -d &");
-  system("xface4-power-manager &");
+  system("xfce4-power-manager &");
 }
 
 void*
