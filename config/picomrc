@@ -13,10 +13,9 @@ glx-copy-from-front = false;
 
 # 圆角
 corner-radius = 12.0;
-round-borders = 10;
+round-borders = 24;
 rounded-corners-exclude = [
     # "class_g *= 'dwm'",
-    "class_g *= 'fcitx'",
 ];
 
 # 阴影
@@ -28,13 +27,12 @@ shadow-offset-y = 0;
 shadow-opacity = 0.25;
 shadow-ignore-shaped = false;
 shadow-exclude = [
-	"_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'",
-	"_GTK_FRAME_EXTENTS@:c",
-	"override_redirect = 1 && !WM_CLASS@:s",
+    "_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'",
+    "_GTK_FRAME_EXTENTS@:c",
+    "override_redirect = 1 && !WM_CLASS@:s",
     "name = 'Notification'",
     "class_g ?= 'Dmenu'",
     "class_g *= 'dwm'",
-    "class_g *= 'Wine'",
 ];
 
 # 透明
@@ -58,7 +56,6 @@ fade-in-step = 0.01;
 fade-out-step = 0.01;
 fade-exclude = [
     "class_g *= 'fcitx'",
-    "class_g = 'Rofi'",
     "WM_CLASS@:s *= 'screenkey'",
 ];
 
