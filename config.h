@@ -91,7 +91,6 @@ static const char *appcmds[50][50] = {
     { "listen1",             NULL },
     { "linuxqq",             NULL },
     { "weixin",              NULL },
-    { "obs",                 NULL },
 };
 
 static const Key keys[] = {
