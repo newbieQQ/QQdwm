@@ -44,6 +44,7 @@ opacity-rule = [
     "100:class_g = 'obs'",
     "100:class_g = 'baidunetdisk'",
     "100:class_g = 'firefox'",
+    "100:class_g = 'wps'",
     "30:class_g *= 'dwm'",
     "70:!focused",
     "85:focused",
