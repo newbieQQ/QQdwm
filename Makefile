@@ -38,7 +38,6 @@ dist: clean
 
 install: all
 	echo "QQWM_PATH=/home/newbie/.dwm" >> /etc/environment
-	gcc QQstatus.c -o ${DESTDIR}${PREFIX}/bin/QQstatus
 	mkdir -p ${DESTDIR}${PREFIX}/bin
 	cp -f dwm ${DESTDIR}${PREFIX}/bin
 	chmod 755 ${DESTDIR}${PREFIX}/bin/dwm
