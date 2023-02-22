@@ -456,7 +456,17 @@ NextTag(const Arg *arg)
 void 
 NextCilent(const Arg *arg) 
 {
-  focusstack(arg);
+  XEvent ev;
+  while (1) {
+      XNextEvent(dpy, &ev);
+      if (ev.type == KeyPress) {
+         if (ev.xkey.keycode == XKeysymToKeycode(dpy, XK_Tab)) 
+          focusstack(arg);
+      } else if (ev.type == KeyRelease) {
+         if (ev.xkey.keycode == XKeysymToKeycode(dpy, XK_Alt_L)) break;
+         if (ev.xkey.keycode == XKeysymToKeycode(dpy, XK_Alt_R)) break;
+      }
+  }
   zoom(0);
 }
 
