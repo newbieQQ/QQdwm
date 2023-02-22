@@ -349,7 +349,6 @@ open(const Arg *arg)
 void
 Myscripts() 
 {
-  //system("QQstatus &");
   system("fcitx5 -d &");
   system("xfce4-power-manager &");
 }
@@ -431,6 +430,7 @@ background(void* arg)
   while (running) {
     system("feh --bg-fill --randomize $QQWM_PATH/background/*");
     system("picom --config $QQWM_PATH/config/picomrc -b &");
+    system("xmodmap $QQWM_PATH/config/xmodmaprc");
     sleep(300);
   }
   return arg;
