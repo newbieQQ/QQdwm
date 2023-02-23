@@ -351,7 +351,7 @@ Myscripts()
 {
   system("fcitx5 -d &");
   system("xfce4-power-manager &");
-  system("blueman-applet");
+  system("blueman-applet &");
 }
 
 const char* RunCMD(const char *cmd) {
