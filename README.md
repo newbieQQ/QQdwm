@@ -20,6 +20,7 @@ QQ 基于 suckless 家 dwm 修改的 windows manager
 picom             # 窗口渲染
 feh               # 壁纸
 alsa-utils        # 声音管理
+blueman           # 蓝牙管理
 ```
  
 ## 使用说明
