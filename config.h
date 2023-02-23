@@ -43,10 +43,10 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ NULL,        NULL,     "图片查看器",       0,             1,           -1 },   //QQ图片查看  
-	{ NULL,        NULL,     "weixin",           0,             1,           -1 },   //微信图片查看
-	{ "listen1",   NULL,     NULL,               0,             1,           -1 },   //listen1     
+	/* class                instance    title       tags mask     isfloating   monitor */
+	{ NULL,                 NULL,     "图片查看器",       0,             1,           -1 },   //QQ图片查看  
+	{ NULL,                 NULL,     "weixin",           0,             1,           -1 },   //微信图片查看
+	{ "blueman-manager",    NULL,     NULL,               0,             1,           -1 },   //蓝牙管理     
 };
 /* layout(s) */
 static const float mfact          = 0.6; /* factor of master area size [0.05..0.95] */
