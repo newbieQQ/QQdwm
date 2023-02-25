@@ -430,7 +430,7 @@ background(void* arg)
 {
   while (running) {
     system("feh --bg-fill --randomize $QQWM_PATH/background/*");
-    system("picom --config $QQWM_PATH/config/picomrc -b &");
+    system("picom --config picomrc -b  --experimental-backends &");
     system("xmodmap $QQWM_PATH/config/xmodmaprc &");
     sleep(300);
   }
