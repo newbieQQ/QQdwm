@@ -82,15 +82,15 @@ static const char *flameshot[]   = { "flameshot", "gui", NULL};
 //static const char *obsidiancmd[] = { "obsidian", NULL };
 
 static const char *appcmds[50][50] = {
-    { "",                    NULL },
-    { "",                    NULL },
-    { "",                    NULL },
-    { "",                    NULL },
-    { "firefox",             NULL },
-    { "obsidian",            NULL },
-    { "listen1",             NULL },
-    { "linuxqq",             NULL },
-    { "weixin",              NULL },
+    { "",                   NULL },
+    { "",                   NULL },
+    { "",                   NULL },
+    { "",                   NULL },
+    { "microsoft-edge-dev", NULL },
+    { "obsidian",           NULL },
+    { "listen1",            NULL },
+    { "linuxqq",            NULL },
+    { "weixin",             NULL },
 };
 
 static const Key keys[] = {
