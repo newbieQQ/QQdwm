@@ -430,7 +430,7 @@ background(void* arg)
 {
   while (running) {
     system("feh --bg-fill --randomize $QQWM_PATH/background/*");
-    system("picom --config picomrc -b  --experimental-backends &");
+    system("picom --config $QQWM_PATH/config/picomrc -b  --experimental-backends &");
     system("xmodmap $QQWM_PATH/config/xmodmaprc &");
     sleep(300);
   }
@@ -457,17 +457,7 @@ NextTag(const Arg *arg)
 void 
 NextCilent(const Arg *arg) 
 {
-  XEvent ev;
-  while (1) {
-      XNextEvent(dpy, &ev);
-      if (ev.type == KeyPress) {
-         if (ev.xkey.keycode == XKeysymToKeycode(dpy, XK_Tab)) 
-          focusstack(arg);
-      } else if (ev.type == KeyRelease) {
-         if (ev.xkey.keycode == XKeysymToKeycode(dpy, XK_Alt_L)) break;
-         if (ev.xkey.keycode == XKeysymToKeycode(dpy, XK_Alt_R)) break;
-      }
-  }
+  focusstack(arg);
   zoom(0);
 }
 
