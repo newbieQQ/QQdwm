@@ -305,8 +305,9 @@ static Window root, wmcheckwin;
 
 /* My Functions*/
 static void NextTag(const Arg *arg);
+static void overview(const Arg *arg);
 static void Myscripts();
-static void grid(Monitor *m);
+static void grid(Monitor *m, uint, uint);
 static void NextCilent(const Arg *arg);
 static void spawnIntag(int, int);
 static void open(const Arg *arg);
@@ -316,6 +317,7 @@ static void* background(void* arg);
 static void* statusbar(void* arg);
 static const char* RunCMD(const char*);
 static const char* GetDatetime();
+static void magicgrid(Monitor *m);
 
 
 /* configuration, allows nested code to access above variables */
@@ -374,10 +376,10 @@ const char* RunCMD(const char *cmd) {
 }
 
 const char *GetDatetime() {
-  char res[100];
+  char res[100] = "";
   time_t rawtime;
   struct tm *timeinfo;
-  char buffer[80];
+  char buffer[80] = "";
 
   time(&rawtime);
   timeinfo = localtime(&rawtime);
@@ -676,59 +678,82 @@ checkotherwm(void)
 	XSync(dpy, False);
 }
 
+void
+magicgrid(Monitor *m) 
+{
+  grid(m, gappo, gappi);
+}
+
 void 
-grid(Monitor *m) {
-  unsigned int i, n;
-  unsigned int cx, cy, cw, ch;
-  unsigned int dx;
-  unsigned int cols, rows, overcols;
-  Client *c;
+overview(const Arg *arg)
+{
+  grid(selmon, gappo, gappi);
+}
 
-  for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++)
-          ;
-  if (n == 0)
-          return;
-  if (n == 1) {
-          c = nexttiled(m->clients);
-          cw = (m->ww - 2 * gappx) * 0.7;
-          ch = (m->wh - 2 * gappx) * 0.65;
-          resize(c, m->mx + (m->mw - cw) / 2 + gappx,
-                 m->my + (m->mh - ch) / 2 + gappx, cw - 2 * c->bw,
-                 ch - 2 * c->bw, 0);
-          return;
-  }
-  if (n == 2) {
-          c = nexttiled(m->clients);
-          cw = (m->ww - 2 * gappx - gappx) / 2;
-          ch = (m->wh - 2 * gappx) * 0.65;
-          resize(c, m->mx + gappx, m->my + (m->mh - ch) / 2 + gappx,
-                 cw - 2 * c->bw, ch - 2 * c->bw, 0);
-          resize(nexttiled(c->next), m->mx + cw + gappx + gappx,
-                 m->my + (m->mh - ch) / 2 + gappx, cw - 2 * c->bw,
-                 ch - 2 * c->bw, 0);
-          return;
-  }
+void
+grid(Monitor *m, uint gappo, uint gappi)
+{
+    unsigned int i, n;
+    unsigned int cx, cy, cw, ch;
+    unsigned int dx;
+    unsigned int cols, rows, overcols;
+    Client *c;
 
-  for (cols = 0; cols <= n / 2; cols++)
-          if (cols * cols >= n)
-                  break;
-  rows = (cols && (cols - 1) * cols >= n) ? cols - 1 : cols;
-  ch = (m->wh - 2 * gappx - (rows - 1) * gappx) / rows;
-  cw = (m->ww - 2 * gappx - (cols - 1) * gappx) / cols;
+    for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+    if (n == 0) return;
+    if (n == 1) {
+        c = nexttiled(m->clients);
+        cw = (m->ww - 2 * gappo) * 0.7;
+        ch = (m->wh - 2 * gappo) * 0.65;
+        resize(c,
+               m->mx + (m->mw - cw) / 2 + gappo,
+               m->my + (m->mh - ch) / 2 + gappo,
+               cw - 2 * c->bw,
+               ch - 2 * c->bw,
+               0);
+        return;
+    }
+    if (n == 2) {
+        c = nexttiled(m->clients);
+        cw = (m->ww - 2 * gappo - gappi) / 2;
+        ch = (m->wh - 2 * gappo) * 0.65;
+        resize(c,
+               m->mx + gappo,
+               m->my + (m->mh - ch) / 2 + gappo,
+               cw - 2 * c->bw,
+               ch - 2 * c->bw,
+               0);
+        resize(nexttiled(c->next),
+               m->mx + cw + gappo + gappi,
+               m->my + (m->mh - ch) / 2 + gappo,
+               cw - 2 * c->bw,
+               ch - 2 * c->bw,
+               0);
+        return;
+    }
 
-  overcols = n % cols;
-  if (overcols)
-          dx = (m->ww - overcols * cw - (overcols - 1) * gappx) / 2 -
-               gappx;
-  for (i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
-          cx = m->wx + (i % cols) * (cw + gappx);
-          cy = m->wy + (i / cols) * (ch + gappx);
-          if (overcols && i >= n - overcols) {
-                  cx += dx;
-          }
-          resize(c, cx + gappx, cy + gappx, cw - 2 * c->bw,
-                 ch - 2 * c->bw, 0);
-  }
+    for (cols = 0; cols <= n / 2; cols++)
+        if (cols * cols >= n)
+            break;
+    rows = (cols && (cols - 1) * cols >= n) ? cols - 1 : cols;
+	ch = (m->wh - 2 * gappo - (rows - 1) * gappi) / rows;
+	cw = (m->ww - 2 * gappo - (cols - 1) * gappi) / cols;
+
+    overcols = n % cols;
+    if (overcols) dx = (m->ww - overcols * cw - (overcols - 1) * gappi) / 2 - gappo;
+	for (i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
+        cx = m->wx + (i % cols) * (cw + gappi);
+        cy = m->wy + (i / cols) * (ch + gappi);
+        if (overcols && i >= n - overcols) {
+            cx += dx;
+        }
+        resize(c,
+               cx + gappo,
+               cy + gappo,
+               cw - 2 * c->bw,
+               ch - 2 * c->bw,
+               0);
+	}
 }
 
 
@@ -2591,6 +2616,7 @@ updatesystray(void)
 	XConfigureWindow(dpy, systray->win, CWX|CWY|CWWidth|CWHeight|CWSibling|CWStackMode, &wc);
 	XMapWindow(dpy, systray->win);
 	XMapSubwindows(dpy, systray->win);
+
 	/* redraw background */
 	XSetForeground(dpy, drw->gc, scheme[SchemeNorm][ColBg].pixel);
 	XFillRectangle(dpy, systray->win, drw->gc, 0, 0, w, bh);

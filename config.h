@@ -1,8 +1,12 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
+#include <X11/X.h>
+
 static const unsigned int borderpx  = 0;        /* border pixel of windows */
 static const unsigned int gappx     = 12;       /* gap pixel between windows */
+static const unsigned int gappo     = 12;       /* gap pixel between windows */
+static const unsigned int gappi     = 12;       /* gap pixel between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 
 static const float systraysize = 0.75;
@@ -57,7 +61,7 @@ static const int   lockfullscreen = 1; /* 1 will force focus on the fullscreen w
 static const Layout layouts[] = {
 	/* symbol     arrange function */
   { "",      tile },       /* first entry is default */
-	{ "󰕰",      grid },       /* no layout function means floating behavior */
+	{ "󰕰",      magicgrid },       /* no layout function means floating behavior */
 	{ "󰹞",      monocle },    /* no layout function means floating behavior */
 //	{ "  ",      NULL },       /* no layout function means floating behavior */
 };
@@ -122,7 +126,7 @@ static const Key keys[] = {
   { MODKEY,                       XK_f,      fullscreen,      {0} },
 
 //  { MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
-//  { MODKEY,                       XK_space,  setlayout,      {0} },
+  { MODKEY,                       XK_a,      overview,      {0} },
 //  { MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
   { MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 //	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
