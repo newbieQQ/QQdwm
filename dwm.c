@@ -358,14 +358,29 @@ Myscripts()
   system("xmodmap $QQWM_PATH/config/xmodmaprc &");
 }
 
+struct statusArg{
+  const char *(*func)(const char *);
+  const char *fmt;
+  const char *args;
+};
+
 void*
 statusbar(void* arg) 
 {
+
+
   static const char *CMDS[] = {
     "",
     "uname -r | awk -F '-' '{print $1}'",
     "amixer sget Master | awk -F '[][]' '/Mono:/{print $2}'",
     "current_brightness=$(cat /sys/class/backlight/intel_backlight/brightness) && max_brightness=$(cat /sys/class/backlight/intel_backlight/max_brightness) && brightness_percent=$(( 100 * current_brightness / max_brightness )) && echo $brightness_percent",
+  };
+
+  static const struct statusArg sargs[] = {
+    {Runcmd, "  %s", "uname -r | awk -F '-' '{print $1}'"},
+    {Runcmd, "| %s", "amixer sget Master | awk -F '[][]' '/Mono:/{print $2}'"},
+    {Runcmd, "| %s%%", "current_brightness=$(cat /sys/class/backlight/intel_backlight/brightness) && max_brightness=$(cat /sys/class/backlight/intel_backlight/max_brightness) && brightness_percent=$(( 100 * current_brightness / max_brightness )) && echo $brightness_percent"},
+    {Curtime, "%s", NULL},
   };
 
   char command[1024 * 512] = "";
@@ -396,6 +411,7 @@ statusbar(void* arg)
     system(cmd);
     usleep(100);
   }
+
   return arg;
 }
 
