@@ -7,6 +7,8 @@ SRC = drw.c dwm.c util.c
 OBJ = ${SRC:.c=.o}
 FUN = \
 			function/Curtime.c\
+			function/Runcmd.c\
+
 
 all: options dwm
 

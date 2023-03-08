@@ -44,7 +44,7 @@
 
 #include "drw.h"
 #include "util.h"
-#include "function/Curtime.h"
+
 
 /* macros */
 #define BUTTONMASK              (ButtonPressMask|ButtonReleaseMask)
@@ -316,12 +316,13 @@ static void runcmd(const Arg *arg);
 static void Mythread();
 static void* background(void* arg);
 static void* statusbar(void* arg);
-static const char* RunCMD(const char*);
 static void magicgrid(Monitor *m);
 
 
 /* configuration, allows nested code to access above variables */
 #include "config.h"
+#include "function/Curtime.h"
+#include "function/Runcmd.h"
 
 /* My Functions */
 
@@ -357,25 +358,6 @@ Myscripts()
   system("xmodmap $QQWM_PATH/config/xmodmaprc &");
 }
 
-const char* RunCMD(const char *cmd) {
-  FILE *fp;
-  char res[1024];
-  char *r = res;
-  fp = popen(cmd, "r");
-
-  if (fp == NULL) {
-    perror("popen failed");
-    char *a = "error";
-    r = a;
-  } else  {
-    while (fgets(res, sizeof(res), fp) != NULL) ;
-    char *p = strtok(res, "\n");
-    r = p;
-    pclose(fp);
-  }
-    return r;
-}
-
 void*
 statusbar(void* arg) 
 {
@@ -386,26 +368,31 @@ statusbar(void* arg)
     "current_brightness=$(cat /sys/class/backlight/intel_backlight/brightness) && max_brightness=$(cat /sys/class/backlight/intel_backlight/max_brightness) && brightness_percent=$(( 100 * current_brightness / max_brightness )) && echo $brightness_percent",
   };
 
-  char command[1024 * 512];
+  char command[1024 * 512] = "";
+
   while (running) {
+    int len = LENGTH(CMDS);
+
     memset(command, 0, sizeof(command));
     strcat(command, CMDS[0]);
+
     // 第一列
     strcat(command, "  "); 
-    strcat(command, RunCMD(CMDS[1]));
+    strcat(command, Runcmd(CMDS[1]));
     // 第二列
     strcat(command, "| ");
-    strcat(command, RunCMD(CMDS[2]));
+    strcat(command, Runcmd(CMDS[2]));
     // 第三列
     strcat(command, "| ");
-    strcat(command, RunCMD(CMDS[3]));
+    strcat(command, Runcmd(CMDS[3]));
     strcat(command, "%");
     // 时间
     strcat(command, Curtime());
 
-    char cmd[1024 * 512];
+    char cmd[1024 * 512] = "ERROR";
+
     sprintf(cmd, "xsetroot -name \"%s\"", command);
-    printf("%s\n", cmd);
+
     system(cmd);
     usleep(100);
   }
