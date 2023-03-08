@@ -2,9 +2,9 @@
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Curtime.h"
+#include "function.h"
 
-const char *Curtime() {
+const char *Curtime(const char* cmd) {
   char res[100] = "";
   time_t rawtime;
   struct tm *timeinfo;

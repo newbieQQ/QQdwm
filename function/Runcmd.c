@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "Runcmd.h"
+#include "function.h"
 
 const char* Runcmd(const char *cmd) {
   FILE *fp;

@@ -88,11 +88,18 @@ static const char *appcmds[50][50] = {
     { "",                   NULL },
     { "",                   NULL },
     { "",                   NULL },
-    { "firefox", NULL },
+    { "firefox",            NULL },
     { "obsidian",           NULL },
     { "listen1",            NULL },
     { "linuxqq",            NULL },
     { "weixin",             NULL },
+};
+
+static const struct statusArg sargs[] = {
+  {Runcmd,  "  %s",   "uname -r | awk -F '-' '{print $1}'"},
+  {Runcmd,  "| %s",   "amixer sget Master | awk -F '[][]' '/Mono:/{print $2}'"},
+  {Runcmd,  "| %s%%", "current_brightness=$(cat /sys/class/backlight/intel_backlight/brightness) && max_brightness=$(cat /sys/class/backlight/intel_backlight/max_brightness) && brightness_percent=$(( 100 * current_brightness / max_brightness )) && echo $brightness_percent"},
+  {Curtime, "%s",      NULL},
 };
 
 static const Key keys[] = {
@@ -102,8 +109,8 @@ static const Key keys[] = {
 	{ Mod1Mask,                     XK_space,  spawn,          {.v = dmenucmd } },
 
 
-	{ MODKEY,                       XK_Up,      runcmd,          {.v = "amixer set Master 5%+"} },
-	{ MODKEY,                       XK_Down,    runcmd,          {.v = "amixer set Master 5%-"} },
+	{ MODKEY,                       XK_Up,      runcmd,        {.v = "amixer set Master 5%+"} },
+	{ MODKEY,                       XK_Down,    runcmd,        {.v = "amixer set Master 5%-"} },
 
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 
@@ -123,11 +130,9 @@ static const Key keys[] = {
 
   { MODKEY,                       XK_f,      fullscreen,      {0} },
 
-//  { MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
-  { MODKEY,                       XK_a,      overview,      {0} },
-//  { MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
+  { MODKEY,                       XK_a,      overview,       {.ui = ~0 } },
   { MODKEY,                       XK_0,      view,           {.ui = ~0 } },
-//	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
+
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },

@@ -114,6 +114,12 @@ struct Client {
 	Window win;
 };
 
+struct statusArg{
+  const char *(*func)(const char *);
+  const char *fmt;
+  const char *args;
+};
+
 typedef struct {
 	unsigned int mod;
 	KeySym keysym;
@@ -320,17 +326,20 @@ static void magicgrid(Monitor *m);
 
 
 /* configuration, allows nested code to access above variables */
+#include "function/function.h"
+
 #include "config.h"
-#include "function/Curtime.h"
-#include "function/Runcmd.h"
+
 
 /* My Functions */
 
 void 
 Mythread() 
 {
-  static pthread_t timing_thread; pthread_create(&timing_thread, NULL, background, NULL);
-  static pthread_t status_thread; pthread_create(&status_thread, NULL, statusbar, NULL);
+  static pthread_t timing_thread;
+  pthread_create(&timing_thread, NULL, background, NULL);
+  static pthread_t status_thread;
+  pthread_create(&status_thread, NULL, statusbar, NULL);
 }
 
 void
@@ -358,55 +367,22 @@ Myscripts()
   system("xmodmap $QQWM_PATH/config/xmodmaprc &");
 }
 
-struct statusArg{
-  const char *(*func)(const char *);
-  const char *fmt;
-  const char *args;
-};
 
 void*
 statusbar(void* arg) 
 {
-
-
-  static const char *CMDS[] = {
-    "",
-    "uname -r | awk -F '-' '{print $1}'",
-    "amixer sget Master | awk -F '[][]' '/Mono:/{print $2}'",
-    "current_brightness=$(cat /sys/class/backlight/intel_backlight/brightness) && max_brightness=$(cat /sys/class/backlight/intel_backlight/max_brightness) && brightness_percent=$(( 100 * current_brightness / max_brightness )) && echo $brightness_percent",
-  };
-
-  static const struct statusArg sargs[] = {
-    {Runcmd, "  %s", "uname -r | awk -F '-' '{print $1}'"},
-    {Runcmd, "| %s", "amixer sget Master | awk -F '[][]' '/Mono:/{print $2}'"},
-    {Runcmd, "| %s%%", "current_brightness=$(cat /sys/class/backlight/intel_backlight/brightness) && max_brightness=$(cat /sys/class/backlight/intel_backlight/max_brightness) && brightness_percent=$(( 100 * current_brightness / max_brightness )) && echo $brightness_percent"},
-    {Curtime, "%s", NULL},
-  };
-
-  char command[1024 * 512] = "";
+  char cmd[4096] = "", buf[2048] = "";
 
   while (running) {
-    int len = LENGTH(CMDS);
+    int len = LENGTH(sargs);
 
-    memset(command, 0, sizeof(command));
-    strcat(command, CMDS[0]);
+    for (int i = 0; i < len; i++) {
+      char* res = "";
+      sprintf(res, sargs[i].fmt, sargs[i].func(sargs[i].args));
+      strcat(buf, res);
+    }
 
-    // 第一列
-    strcat(command, "  "); 
-    strcat(command, Runcmd(CMDS[1]));
-    // 第二列
-    strcat(command, "| ");
-    strcat(command, Runcmd(CMDS[2]));
-    // 第三列
-    strcat(command, "| ");
-    strcat(command, Runcmd(CMDS[3]));
-    strcat(command, "%");
-    // 时间
-    strcat(command, Curtime());
-
-    char cmd[1024 * 512] = "ERROR";
-
-    sprintf(cmd, "xsetroot -name \"%s\"", command);
+    snprintf(cmd, sizeof(cmd), "xsetroot -name '%s'", buf);
 
     system(cmd);
     usleep(100);
