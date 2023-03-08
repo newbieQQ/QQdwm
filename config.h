@@ -82,15 +82,13 @@ static char dmenumon[2]          = "0"; /* component of dmenucmd, manipulated in
 static const char *dmenucmd[]    = { "dmenu_run", "-fn", dmenufont, "-c", "-l", "8", "-F", NULL};
 static const char *termcmd[]     = { "st", NULL };
 static const char *flameshot[]   = { "flameshot", "gui", NULL};
-//static const char *firefoxcmd[]  = { "firefox", NULL };
-//static const char *obsidiancmd[] = { "obsidian", NULL };
 
 static const char *appcmds[50][50] = {
     { "",                   NULL },
     { "",                   NULL },
     { "",                   NULL },
     { "",                   NULL },
-    { "microsoft-edge-dev", NULL },
+    { "firefox", NULL },
     { "obsidian",           NULL },
     { "listen1",            NULL },
     { "linuxqq",            NULL },

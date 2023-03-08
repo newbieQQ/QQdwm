@@ -44,6 +44,7 @@
 
 #include "drw.h"
 #include "util.h"
+#include "function/Curtime.h"
 
 /* macros */
 #define BUTTONMASK              (ButtonPressMask|ButtonReleaseMask)
@@ -316,7 +317,6 @@ static void Mythread();
 static void* background(void* arg);
 static void* statusbar(void* arg);
 static const char* RunCMD(const char*);
-static const char* GetDatetime();
 static void magicgrid(Monitor *m);
 
 
@@ -354,6 +354,7 @@ Myscripts()
   system("fcitx5 -d &");
   system("xfce4-power-manager &");
   system("blueman-applet &");
+  system("xmodmap $QQWM_PATH/config/xmodmaprc &");
 }
 
 const char* RunCMD(const char *cmd) {
@@ -373,21 +374,6 @@ const char* RunCMD(const char *cmd) {
     pclose(fp);
   }
     return r;
-}
-
-const char *GetDatetime() {
-  char res[100] = "";
-  time_t rawtime;
-  struct tm *timeinfo;
-  char buffer[80] = "";
-
-  time(&rawtime);
-  timeinfo = localtime(&rawtime);
-
-  strftime(buffer, 80, "%Y-%m-%d %H:%M", timeinfo);
-  sprintf(res, "| %s ", buffer);
-  const char *ans = res;
-  return ans;
 }
 
 void*
@@ -415,7 +401,7 @@ statusbar(void* arg)
     strcat(command, RunCMD(CMDS[3]));
     strcat(command, "%");
     // 时间
-    strcat(command, GetDatetime());
+    strcat(command, Curtime());
 
     char cmd[1024 * 512];
     sprintf(cmd, "xsetroot -name \"%s\"", command);
