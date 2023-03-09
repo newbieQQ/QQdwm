@@ -102,6 +102,14 @@ static const struct statusArg sargs[] = {
   {Curtime, "%s",      NULL},
 };
 
+static const int AutoStartLen = 4;
+static const char* AutoStart[] = {
+  "fcitx5 -d &",
+  "xfce4-power-manager &",
+  "blueman-applet &",
+  "xmodmap $QQWM_PATH/config/xmodmaprc &",
+};
+
 static const Key keys[] = {
   /*                              键位                                */
 	/* modifier                     key        function        argument */

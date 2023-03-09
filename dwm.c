@@ -45,7 +45,6 @@
 #include "drw.h"
 #include "util.h"
 
-
 /* macros */
 #define BUTTONMASK              (ButtonPressMask|ButtonReleaseMask)
 #define CLEANMASK(mask)         (mask & ~(numlockmask|LockMask) & (ShiftMask|ControlMask|Mod1Mask|Mod2Mask|Mod3Mask|Mod4Mask|Mod5Mask))
@@ -169,6 +168,7 @@ struct Systray {
 	Window win;
 	Client *icons;
 };
+
 
 /* function declarations */
 static void applyrules(Client *c);
@@ -313,7 +313,6 @@ static Window root, wmcheckwin;
 /* My Functions*/
 static void NextTag(const Arg *arg);
 static void overview(const Arg *arg);
-static void Myscripts();
 static void grid(Monitor *m, uint, uint);
 static void NextCilent(const Arg *arg);
 static void spawnIntag(int, int);
@@ -323,6 +322,7 @@ static void Mythread();
 static void* background(void* arg);
 static void* statusbar(void* arg);
 static void magicgrid(Monitor *m);
+static void Autostart(const char **StartCmds);
 
 
 /* configuration, allows nested code to access above variables */
@@ -332,6 +332,15 @@ static void magicgrid(Monitor *m);
 
 
 /* My Functions */
+
+void
+Autostart(const char *StartCmds[]) 
+{
+  int len = AutoStartLen;
+  for (int i = 0; i < len; i++) {
+    system(StartCmds[i]);
+  }
+}
 
 void 
 Mythread() 
@@ -358,36 +367,28 @@ open(const Arg *arg)
 	arrange(selmon);
 }
 
-void
-Myscripts() 
-{
-  system("fcitx5 -d &");
-  system("xfce4-power-manager &");
-  system("blueman-applet &");
-  system("xmodmap $QQWM_PATH/config/xmodmaprc &");
-}
-
 
 void*
 statusbar(void* arg) 
 {
-  char cmd[4096] = "", buf[2048] = "";
+  char cmd[4096] = "", buf[2048] = "", res[2018] = "";
 
   while (running) {
-    int len = LENGTH(sargs);
 
+    memset(cmd, 0, sizeof cmd);
+    memset(res, 0, sizeof res);
+    memset(buf, 0, sizeof buf);
+
+    int len = LENGTH(sargs);
     for (int i = 0; i < len; i++) {
-      char* res = "";
       sprintf(res, sargs[i].fmt, sargs[i].func(sargs[i].args));
       strcat(buf, res);
     }
-
+    
     snprintf(cmd, sizeof(cmd), "xsetroot -name '%s'", buf);
-
     system(cmd);
     usleep(100);
   }
-
   return arg;
 }
 
@@ -2775,7 +2776,7 @@ main(int argc, char *argv[])
 		die("pledge");
 #endif /* __OpenBSD__ */
 	scan();
-  Myscripts();
+  Autostart(AutoStart);
   Mythread();
 	run();
 	cleanup();
