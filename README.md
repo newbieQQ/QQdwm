@@ -11,7 +11,7 @@ QQ 基于 suckless 家 dwm 修改的 windows manager
 - [ ] 将dmenu集成到软件里   
 - [ ] 实现通知  
 - [ ] 灵动岛  
-- [ ] 实现改键盘
+- [x] 实现改键盘
 - [ ] 实现u盘插入自动挂载
 - [ ] 实现允许窗口浮动在各个tag上固定住
 
@@ -21,6 +21,7 @@ picom             # 窗口渲染
 feh               # 壁纸
 alsa-utils        # 声音管理
 blueman           # 蓝牙管理
+keyd              # 键盘修改
 ```
  
 ## 使用说明
@@ -28,23 +29,18 @@ blueman           # 蓝牙管理
 在使用前需要修改文件
 
 1. 首先就是 config.mk 中, 将两项修改为自己的X11库位置
-   ```c
+   ```bash
    X11INC = /usr/include/X11
    X11LIB = /usr/lib/X11
    ```
 2. 其次，在 Makefile 中, install位置的第一行QQWM_PATH为自己的配置
-  ```c
+  ```bash
   install: all
     echo "QQWM_PATH=/home/newbie/QQwm/dwm" >> /etc/environment
-    mkdir -p ${DESTDIR}${PREFIX}/bin
-    cp -f dwm ${DESTDIR}${PREFIX}/bin
-    chmod 755 ${DESTDIR}${PREFIX}/bin/dwm
-    mkdir -p ${DESTDIR}${MANPREFIX}/man1
-    sed "s/VERSION/${VERSION}/g" < dwm.1 > ${DESTDIR}${MANPREFIX}/man1/dwm.1
-    chmod 644 ${DESTDIR}${MANPREFIX}/man1/dwm.1
-    rm -f dwm ${OBJ} dwm-${VERSION}.tar.gz
   ```
 3. 配置文件在 config.h 之中
+
+4. 修改键盘和窗口的渲染在config中, 用的分别是keyd和picom
 
 ### 桌面壁纸
 
