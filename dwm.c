@@ -654,14 +654,14 @@ magicgrid(Monitor *m)
 void 
 overview(const Arg *arg)
 {
-  if (!selmon->overviewstatus) {
-    view(arg);
-    selmon->overviewstatus = 1;
-    grid(selmon, gappo, gappi);
-  } else {
-    selmon->overviewstatus = 0;
-    const Arg a = {.ui = 0};
+  const Arg a = {.ui = selmon->overviewstatus};
+  if (~selmon->overviewstatus) {
     view(&a);
+    selmon->overviewstatus = ~0;
+  } else {
+    selmon->overviewstatus = selmon->seltag;
+    view(&a);
+    grid(selmon, gappo, gappi);
   }
 }
 
@@ -958,7 +958,8 @@ createmon(void)
 	m = ecalloc(1, sizeof(Monitor));
 
   m->seltag = 1;
-  m->overviewstatus = 0;
+  m->seltags = 1;
+  m->overviewstatus = ~0;
 	m->tagset[0] = m->tagset[1] = 1;
 	m->mfact = mfact;
 	m->nmaster = nmaster;
