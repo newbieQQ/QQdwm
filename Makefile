@@ -21,9 +21,9 @@ options:
 .c.o:
 	${CC} -c ${CFLAGS} $<
 
-${OBJ}: config.h config.mk
+${OBJ}: config/config.h config.mk
 
-config.h:
+config/config.h:
 	cp config.def.h $@
 
 dwm: ${OBJ}

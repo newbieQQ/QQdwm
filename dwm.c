@@ -331,7 +331,7 @@ static void Autostart(const char **StartCmds);
 /* configuration, allows nested code to access above variables */
 #include "function/function.h"
 
-#include "config.h"
+#include "config/config.h"
 
 
 /* My Functions */
