@@ -8,6 +8,8 @@ static const unsigned int gappx     = 12;       /* gap pixel between windows */
 static const unsigned int gappo     = 12;       /* gap pixel between windows */
 static const unsigned int gappi     = 12;       /* gap pixel between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
+static const int vertpad            = 10;       /* vertical padding of bar */
+static const int sidepad            = 10;       /* horizontal padding of bar */
 
 static const float systraysize = 0.75;
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
@@ -15,7 +17,7 @@ static const unsigned int systrayonleft = 0;    /* 0: systray in the right corne
 static const unsigned int systrayspacing = 0;   /* systray spacing */
 
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
-static const int showsystray        = 1;        /* 0 means no systray */
+static const int showsystray        = 0;        /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { 
@@ -96,10 +98,10 @@ static const char *appcmds[50][50] = {
 };
 
 static const struct statusArg sargs[] = {
-  {Runcmd,  "  %s",   "uname -r | awk -F '-' '{print $1}'"},
-  {Runcmd,  "| %s",   "amixer sget Master | awk -F '[][]' '/Mono:/{print $2}'"},
-  {Runcmd,  "| %s%%", "current_brightness=$(cat /sys/class/backlight/intel_backlight/brightness) && max_brightness=$(cat /sys/class/backlight/intel_backlight/max_brightness) && brightness_percent=$(( 100 * current_brightness / max_brightness )) && echo $brightness_percent"},
-  {Curtime, "%s",      NULL},
+  {Runcmd,  " %s",   "uname -r | awk -F '-' '{print $1}'"},
+  {Runcmd,  "|%s",   "amixer sget Master | awk -F '[][]' '/Mono:/{print $2}'"},
+  {Runcmd,  "|%s%%", "current_brightness=$(cat /sys/class/backlight/intel_backlight/brightness) && max_brightness=$(cat /sys/class/backlight/intel_backlight/max_brightness) && brightness_percent=$(( 100 * current_brightness / max_brightness )) && echo $brightness_percent"},
+  {Curtime, "|%s",      NULL},
 };
 
 static const int AutoStartLen = 4;
