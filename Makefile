@@ -42,6 +42,7 @@ dist: clean
 
 install: all
 	echo "QQWM_PATH=/home/newbie/.dwm" >> /etc/environment
+	cp config/keydrc /etc/keyd/default.conf
 	mkdir -p ${DESTDIR}${PREFIX}/bin
 	cp -f dwm ${DESTDIR}${PREFIX}/bin
 	chmod 755 ${DESTDIR}${PREFIX}/bin/dwm
