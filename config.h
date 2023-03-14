@@ -109,7 +109,6 @@ static const char* AutoStart[] = {
   "fcitx5 -d &",
   "xfce4-power-manager &",
   "blueman-applet &",
-  "xmodmap $QQWM_PATH/config/xmodmaprc &",
 };
 
 static const Key keys[] = {
