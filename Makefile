@@ -1,7 +1,7 @@
 # dwm - dynamic window manager
 # See LICENSE file for copyright and license details.
 
-include config.mk
+include config/config.mk
 
 SRC = drw.c dwm.c util.c
 OBJ = ${SRC:.c=.o}
@@ -21,7 +21,7 @@ options:
 .c.o:
 	${CC} -c ${CFLAGS} $<
 
-${OBJ}: config/config.h config.mk
+${OBJ}: config/config.h config/config.mk
 
 config/config.h:
 	cp config.def.h $@
