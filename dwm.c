@@ -152,6 +152,7 @@ struct Monitor {
 	Monitor *next;
 	Window barwin;
 	const Layout *lt[2];
+  int overviewstatus;
 };
 
 typedef struct {
@@ -653,7 +654,15 @@ magicgrid(Monitor *m)
 void 
 overview(const Arg *arg)
 {
-  grid(selmon, gappo, gappi);
+  if (!selmon->overviewstatus) {
+    view(arg);
+    selmon->overviewstatus = 1;
+    grid(selmon, gappo, gappi);
+  } else {
+    selmon->overviewstatus = 0;
+    const Arg a = {.ui = 0};
+    view(&a);
+  }
 }
 
 void
@@ -949,6 +958,7 @@ createmon(void)
 	m = ecalloc(1, sizeof(Monitor));
 
   m->seltag = 1;
+  m->overviewstatus = 0;
 	m->tagset[0] = m->tagset[1] = 1;
 	m->mfact = mfact;
 	m->nmaster = nmaster;
@@ -2643,14 +2653,6 @@ view(const Arg *arg)
   }
 	focus(NULL);
 	arrange(selmon);
-
-/* 	if ((arg->ui & TAGMASK) == selmon->tagset[selmon->seltags]) */
-/* 		return; */
-/* 	selmon->seltags ^= 1; /1* toggle sel tagset *1/ */
-/* 	if (arg->ui & TAGMASK) */ 
-/* 		selmon->tagset[selmon->seltags] = arg->ui & TAGMASK; */
-/* 	focus(NULL); */
-/* 	arrange(selmon); */
 }
 
 Client *
